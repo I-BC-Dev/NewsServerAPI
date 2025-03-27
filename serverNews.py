@@ -15,13 +15,14 @@ CACHE_DURATION = 300  # 5 minutes in seconds
 
 def fetch_calendar_xml():
     current_time = time.time()
-    print("time passed: ", current_time - cache["timestamp"] )
+    print("time passed: ", current_time - cache["timestamp"])
 
     if current_time - cache["timestamp"] < CACHE_DURATION:
         return cache["data"]
 
-
     response = requests.get(URL, headers=headers)
+
+    print("Getting Request: ", response.status_code)
     response.raise_for_status()
     cache["data"] = response.text
     cache["timestamp"] = current_time
@@ -42,5 +43,5 @@ def root():
     return {"message": "News Server API"}
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=1225)
+# if __name__ == "__main__":
+#     uvicorn.run(app, host="localhost", port=1225)
